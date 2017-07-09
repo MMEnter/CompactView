@@ -18,21 +18,15 @@
                 x:Uid="Settings_Title"
                 x:Name="TitlePage"
                 FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
-                Margin="0,0,12,7"/>   
+                Margin="0,0,12,7"/>
+            <TextBlock
+                Grid.Row="0"
+                x:Uid="Settings_VersionNumber"
+                x:Name="VersionNumber"
+                FontSize="14" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
+                Margin="0,0,12,7"/>
 
-            <StackPanel Grid.Row="1" Margin="0,16,0,0">
-                <TextBlock
-                    x:Uid="Settings_Theme"
-                    Style="{ThemeResource TitleTextBlockStyle}"/>
-                <ToggleSwitch
-                    x:Uid="Settings_ThemeToggle"
-                    IsOn="{x:Bind IsLightThemeEnabled, Mode=OneWay}"
-                    Toggled="ThemeToggle_Toggled"
-                    Margin="0,4,0,0">
-                </ToggleSwitch>
-            </StackPanel>
-
-            <StackPanel Grid.Row="2" Margin="0,16,0,0">
+            <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,16,0,0">
                 <TextBlock
                     x:Uid="Settings_About"
                     Style="{ThemeResource TitleTextBlockStyle}"/>
@@ -46,6 +40,18 @@
                 <HyperlinkButton
                     x:Uid="Settings_PrivacyTermsLink"
                     Margin="0,8,0,0"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Margin="0,16,0,0">
+                <TextBlock
+                    x:Uid="Settings_Theme"
+                    Style="{ThemeResource TitleTextBlockStyle}"/>
+                <ToggleSwitch
+                    x:Uid="Settings_ThemeToggle"
+                    IsOn="{x:Bind IsLightThemeEnabled, Mode=OneWay}"
+                    Toggled="ThemeToggle_Toggled"
+                    Margin="0,4,0,0">
+                </ToggleSwitch>
             </StackPanel>
 
         </Grid>

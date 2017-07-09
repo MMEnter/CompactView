@@ -126,36 +126,32 @@
   <data name="Settings_Theme.Text" xml:space="preserve">
     <value>Theme</value>
   </data>
-  <data name="Settings_ThemeToggle.OnContent" xml:space="preserve">  
+  <data name="Settings_ThemeToggle.OnContent" xml:space="preserve">
     <value>Light</value>
   </data>
-  <data name="Settings_ThemeToggle.OffContent" xml:space="preserve">    
+  <data name="Settings_ThemeToggle.OffContent" xml:space="preserve">
     <value>Dark</value>
   </data>
-  <data name="Settings_About.Text" xml:space="preserve">    
+  <data name="Settings_About.Text" xml:space="preserve">
     <value>About this application</value>
   </data>
-  <data name="Settings_AboutDescription.Text" xml:space="preserve">    
-    <value>Settings page placeholder text.  Your app description goes here.</value>
+  <data name="Settings_AboutDescription.Text" xml:space="preserve">
+    <value>This app allows you to display homepages in picture in picture mode to always keep inportant information on top or to keep your movie in sight. This App is available on GitHub to contribute or alter for your personal needs.</value>
   </data>
-  <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">    
+  <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
     <value>Privacy Terms</value>
   </data>
-  <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">  
+  <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">
     <value>https://YourPrivacyUrlGoesHere/</value>
   </data>
-  NavigateUri
-  <data name="Tabbed_Pivot.Text" xml:space="preserve">  
+  <data name="Tabbed_Pivot.Text" xml:space="preserve">
     <value>Tabbed</value>
   </data>
-  <data name="Tabbed_PivotItem1.Header" xml:space="preserve">  
+  <data name="Tabbed_PivotItem1.Header" xml:space="preserve">
     <value>Item 1</value>
   </data>
   <data name="Tabbed_PivotItem2.Header" xml:space="preserve">
     <value>Item 2</value>
-  </data>
-  <data name="Shell_Main" xml:space="preserve">
-    <value>Main</value>
   </data>
   <data name="Shell_Settings" xml:space="preserve">
     <value>Settings</value>
@@ -165,5 +161,8 @@
   </data>
   <data name="Shell_Tabbed" xml:space="preserve">
     <value>Tabbed</value>
+  </data>
+  <data name="Settings_VersionNumber" xml:space="preserve">
+    <value>v. 1.0</value>
   </data>
 </root>

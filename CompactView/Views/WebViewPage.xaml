@@ -6,8 +6,34 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <WebView Source="{x:Bind Source, Mode=OneWay}" />
-        <!--Consider giving feedback to the user for waiting in the navigation-->
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SizeChanged="Grid_SizeChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Background="White" Grid.Row="0" x:Name="TitleBar">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="BackButtonGrid" Grid.Column="1">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="FocuseMode" Content="&#xE1D9;" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Click="Focus_Click" FontFamily="Segoe MDL2 Assets" />
+                    <Button x:Name="MiniMode" Content="&#xF16E;" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Click="MiniView_Click" FontFamily="Segoe MDL2 Assets" />
+                    <TextBox x:Name="textBox" TextCompositionEnded="textBox_TextCompositionEnded" ManipulationCompleted="textBox_ManipulationCompleted" />
+                    <Button x:Name="Go" Content="&#xE8AD;" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Click="Go_Click" FontFamily="Segoe MDL2 Assets" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="2" x:Name="MainTitleBar" Background="Transparent">
+
+            </Grid>
+            <Grid Grid.Column="3" x:Name="RightMask">
+            </Grid>
+        </Grid>
+        <!--Change Source to url of your Choice Source="{x:Bind Source, Mode=OneWay}"-->
+        <WebView x:Name="webView1" Grid.Row="1" Source=""/>
     </Grid>
 </Page>

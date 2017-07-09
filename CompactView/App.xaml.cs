@@ -61,7 +61,7 @@ namespace CompactView
             
         private ActivationService CreateActivationService()
         {
-            return new ActivationService(this, typeof(Views.MainPage), new Views.ShellPage());
+            return new ActivationService(this, typeof(Views.WebViewPage), new Views.ShellPage());
         }
     }
 }
