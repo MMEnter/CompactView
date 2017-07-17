@@ -37,6 +37,12 @@
                 <TextBlock
                     x:Uid="Settings_AboutDescription"
                     Style="{ThemeResource BodyTextBlockStyle}"/>
+                <TextBlock
+                    x:Uid="Settings_Using"
+                    Style="{ThemeResource TitleTextBlockStyle}"/>
+                <TextBlock
+                    x:Uid="Settings_UsingDescription"
+                    Style="{ThemeResource BodyTextBlockStyle}"/>
                 <HyperlinkButton
                     x:Uid="Settings_PrivacyTermsLink"
                     Margin="0,8,0,0"/>

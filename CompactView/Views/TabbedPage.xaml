@@ -22,11 +22,7 @@
         <Pivot Grid.Row="1">
             <PivotItem x:Uid="Tabbed_PivotItem1">
                 <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-                    <!--
-                    The SystemControlPageBackgroundChromeLowBrush background represents where you should place your content. 
-                    Place your content here.
-                    -->
-
+                    <WebView x:Name="webView1" Grid.Row="1" Source="https://www.netflix.com/"/>
                 </Grid>
             </PivotItem>
 

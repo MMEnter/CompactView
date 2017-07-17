@@ -1,10 +1,13 @@
 using CompactView.Helpers;
+using CompactView.Models;
 using CompactView.Services;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
@@ -16,7 +19,6 @@ namespace CompactView.Views
 {
     public sealed partial class WebViewPage : Page, INotifyPropertyChanged
     {
-        // TODO UWPTemplates: Set your hyperlink default here
        static AppSettings appSettings = new AppSettings();
 
         private Uri _source = new Uri(appSettings.Uri);
@@ -48,6 +50,27 @@ namespace CompactView.Views
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            string Name = e.Parameter.ToString();
+
+            UseWebsite useWebsite = new UseWebsite();
+            List<Website> websites = useWebsite.GetList();
+
+            Website website = websites.Find(
+                delegate(Website site)
+                {
+                    return site.Name == Name;
+                }                
+                );
+            if (website != null)
+            {
+                _source = new Uri(website.URL);
+                webView1.Source = _source;
+            }
+        }
 
         private void Set<T>(ref T storage, T value, [CallerMemberName]string propertyName = null)
         {
@@ -183,19 +206,38 @@ namespace CompactView.Views
             }
         }
 
-        private void textBox_TextCompositionEnded(TextBox sender, TextCompositionEndedEventArgs args)
-        {
-            SourceUpdated();
-        }
-
-        private void textBox_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
-        {
-            SourceUpdated();
-        }
-
         private void Go_Click(object sender, RoutedEventArgs e)
         {
             SourceUpdated();
+        }
+
+        private async void PastAndGo_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            var dataPackageView = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
+            if (dataPackageView.Contains(StandardDataFormats.Text))
+            {
+                try
+                {
+                    var text = await dataPackageView.GetTextAsync();
+                    textBox.Text = text.ToString();
+                    await SourceUpdated();
+                }
+                catch (Exception ex)
+                {
+                    var messageDialog = new MessageDialog("Could not get the URL from the Clipboard.");
+                }
+            }
+            else
+            {
+            }
+        }
+
+        private void textBox_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                SourceUpdated();
+            }
         }
     }
 }

@@ -165,4 +165,11 @@
   <data name="Settings_VersionNumber" xml:space="preserve">
     <value>v. 1.0</value>
   </data>
+  <data name="Settings_Using.Text" xml:space="preserve">
+    <value>Packages Used</value>
+  </data>
+  <data name="Settings_UsingDescription.Text" xml:space="preserve">
+    <value>Microsot UWP Toolkit
+Microsoft Template Builder</value>
+  </data>
 </root>

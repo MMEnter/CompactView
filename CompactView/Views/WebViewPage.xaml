@@ -23,8 +23,9 @@
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="FocuseMode" Content="&#xE1D9;" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Click="Focus_Click" FontFamily="Segoe MDL2 Assets" />
                     <Button x:Name="MiniMode" Content="&#xF16E;" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Click="MiniView_Click" FontFamily="Segoe MDL2 Assets" />
-                    <TextBox x:Name="textBox" TextCompositionEnded="textBox_TextCompositionEnded" ManipulationCompleted="textBox_ManipulationCompleted" />
-                    <Button x:Name="Go" Content="&#xE8AD;" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Click="Go_Click" FontFamily="Segoe MDL2 Assets" />
+                    <TextBox x:Name="textBox" KeyUp="textBox_KeyUp"/>
+                    <Button x:Name="Go" Content="GO" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Click="Go_Click" />
+                    <Button x:Name="PastAndGo" Click="PastAndGo_ClickAsync" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="2" x:Name="MainTitleBar" Background="Transparent">

@@ -9,6 +9,9 @@ using CompactView.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using static CompactView.Views.WebViewPage;
+using CompactView.Models;
+using System.Collections.Generic;
 
 namespace CompactView.Views
 {
@@ -70,8 +73,20 @@ namespace CompactView.Views
             // More on Segoe UI Symbol icons: https://docs.microsoft.com/windows/uwp/style/segoe-ui-symbol-font
             // Edit String/en-US/Resources.resw: Add a menu item title for each page
             _secondaryItems.Add(ShellNavigationItem.FromType<SettingsPage>("Shell_Settings".GetLocalized(), Symbol.Setting));
-            _primaryItems.Add(ShellNavigationItem.FromType<WebViewPage>("Shell_WebView".GetLocalized(), Symbol.Globe));
-            _primaryItems.Add(ShellNavigationItem.FromType<TabbedPage>("Shell_Tabbed".GetLocalized(), Symbol.Help));
+
+            UseWebsite useWebsite = new UseWebsite();
+            List<Website> websites = useWebsite.GetList();
+
+            foreach (Website site in websites)
+            {
+                _primaryItems.Add(ShellNavigationItem.FromType<WebViewPage>(site.Name, site.Symbol));
+            }
+        }
+
+
+        private void GetList()
+        {
+
         }
 
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)
@@ -106,7 +121,7 @@ namespace CompactView.Views
             var navigationItem = item as ShellNavigationItem;
             if (navigationItem != null)
             {
-                NavigationService.Navigate(navigationItem.PageType);
+                NavigationService.Navigate(navigationItem.PageType, navigationItem.Label);
             }
         }
 
