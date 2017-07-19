@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Navigation;
 using static CompactView.Views.WebViewPage;
 using CompactView.Models;
 using System.Collections.Generic;
+using System;
 
 namespace CompactView.Views
 {
@@ -72,21 +73,15 @@ namespace CompactView.Views
 
             // More on Segoe UI Symbol icons: https://docs.microsoft.com/windows/uwp/style/segoe-ui-symbol-font
             // Edit String/en-US/Resources.resw: Add a menu item title for each page
+
             _secondaryItems.Add(ShellNavigationItem.FromType<SettingsPage>("Shell_Settings".GetLocalized(), Symbol.Setting));
 
-            UseWebsite useWebsite = new UseWebsite();
-            List<Website> websites = useWebsite.GetList();
+            List<Website> websites = UseWebsite.GetList();
 
             foreach (Website site in websites)
             {
                 _primaryItems.Add(ShellNavigationItem.FromType<WebViewPage>(site.Name, site.Symbol));
             }
-        }
-
-
-        private void GetList()
-        {
-
         }
 
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)
@@ -174,5 +169,11 @@ namespace CompactView.Views
         }
 
         private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            UseWebsite.AddNewAsync("Test", new Uri("https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/dialogs"));
+            PopulateNavItems();
+        }
     }
 }

@@ -67,14 +67,16 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <ItemsControl
                                 VerticalAlignment="Top"
                                 IsTabStop="False"
                                 ItemTemplate="{StaticResource NavigationMenuItemDataTemplate}"
                                 ItemsSource="{x:Bind PrimaryItems, Mode=OneWay}" />
+                            <Button Grid.Row="1" x:Name="AddButton" Width="48" Height="48" VerticalAlignment="Bottom" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Click="AddButton_Click" Background="Transparent"/>
                             <ItemsControl
-                                Grid.Row="1"
+                                Grid.Row="2"
                                 VerticalAlignment="Bottom"
                                 IsTabStop="False"
                                 ItemTemplate="{StaticResource NavigationMenuItemDataTemplate}"

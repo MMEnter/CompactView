@@ -11,7 +11,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Background="White" Grid.Row="0" x:Name="TitleBar">
+        <Grid Background="Transparent" Grid.Row="0" x:Name="TitleBar">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="48"/>
                 <ColumnDefinition Width="Auto"/>
@@ -19,13 +19,15 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Grid x:Name="BackButtonGrid" Grid.Column="1">
+            <Grid x:Name="BackButtonGrid" Grid.Column="1" Background="White">
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="FocuseMode" Content="&#xE1D9;" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Click="Focus_Click" FontFamily="Segoe MDL2 Assets" />
-                    <Button x:Name="MiniMode" Content="&#xF16E;" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Click="MiniView_Click" FontFamily="Segoe MDL2 Assets" />
-                    <TextBox x:Name="textBox" KeyUp="textBox_KeyUp"/>
-                    <Button x:Name="Go" Content="GO" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Click="Go_Click" />
-                    <Button x:Name="PastAndGo" Click="PastAndGo_ClickAsync" />
+                    <Button x:Name="FocuseMode" Content="&#xE1D9;" Background="Transparent" Click="Focus_Click" FontFamily="Segoe MDL2 Assets" Foreground="Black" />
+                    <Button x:Name="MiniMode" Click="MiniView_Click" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="Black" Height="{Binding Height, ElementName=FocuseMode}" >
+                        <Image Source="ms-appx:///Assets/WebViewLogo.png" Stretch="UniformToFill" MaxHeight="50"/>
+                    </Button>
+                    <TextBox x:Name="textBox" KeyUp="textBox_KeyUp" Foreground="Black" />
+                    <Button x:Name="Go" Content="GO" Background="Transparent" Click="Go_Click"  Foreground="Black" />
+                    <Button x:Name="PastAndGo" Click="PastAndGo_ClickAsync" Content="Past and Go" Background="Transparent" Foreground="Black" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="2" x:Name="MainTitleBar" Background="Transparent">

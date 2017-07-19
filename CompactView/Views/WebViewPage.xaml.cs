@@ -56,8 +56,7 @@ namespace CompactView.Views
             base.OnNavigatedTo(e);
             string Name = e.Parameter.ToString();
 
-            UseWebsite useWebsite = new UseWebsite();
-            List<Website> websites = useWebsite.GetList();
+            List<Website> websites = UseWebsite.GetList();
 
             Website website = websites.Find(
                 delegate(Website site)
@@ -67,7 +66,7 @@ namespace CompactView.Views
                 );
             if (website != null)
             {
-                _source = new Uri(website.URL);
+                _source = website.URL;
                 webView1.Source = _source;
             }
         }
@@ -193,7 +192,7 @@ namespace CompactView.Views
             catch
             {
                 // Create the message dialog and set its content
-                var messageDialog = new MessageDialog("The URL entered was not a valid URL.");
+                DisplayDialog("Error", "The URL entered was not a valid URL. A URL has to look like http://www.bing.com ");
                 appSettings.Uri = "https://www.netflix.com";
                 validUri = false;
             }
@@ -224,7 +223,7 @@ namespace CompactView.Views
                 }
                 catch (Exception ex)
                 {
-                    var messageDialog = new MessageDialog("Could not get the URL from the Clipboard.");
+                    DisplayDialog("Error", "Could not get the URL from the Clipboard.");
                 }
             }
             else
@@ -238,6 +237,18 @@ namespace CompactView.Views
             {
                 SourceUpdated();
             }
+        }
+
+        private async void DisplayDialog(string title, string content)
+        {
+            ContentDialog noWifiDialog = new ContentDialog
+            {
+                Title = title,
+                Content = content,
+                CloseButtonText = "Ok"
+            };
+
+            ContentDialogResult result = await noWifiDialog.ShowAsync();
         }
     }
 }
