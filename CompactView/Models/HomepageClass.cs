@@ -24,8 +24,8 @@ namespace CompactView.Models
     {
         static List<Website> websites = new List<Website>
         {
-            new Website() {Name="Netflix", URL= new Uri("https://www.netflix.com/"), Symbol= Symbol.Globe},
-            new Website() {Name="HNA", URL=new Uri("https://www.hna.de/"), Symbol= Symbol.Globe}
+            //new Website() {Name="Netflix", URL= new Uri("https://www.netflix.com/"), Symbol= Symbol.Globe},
+            //new Website() {Name="HNA", URL=new Uri("https://www.hna.de/"), Symbol= Symbol.Globe}
         };
 
         public static List<Website> GetList()
@@ -44,7 +44,7 @@ namespace CompactView.Models
             SaveAsync(websites);
         }
 
-        public void Delete(int iD)
+        public static void Delete(long iD)
         {
             Website deleteSite = websites.Find(
                 delegate (Website site)

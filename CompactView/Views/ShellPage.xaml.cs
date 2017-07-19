@@ -13,6 +13,7 @@ using static CompactView.Views.WebViewPage;
 using CompactView.Models;
 using System.Collections.Generic;
 using System;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace CompactView.Views
 {
@@ -80,7 +81,7 @@ namespace CompactView.Views
 
             foreach (Website site in websites)
             {
-                _primaryItems.Add(ShellNavigationItem.FromType<WebViewPage>(site.Name, site.Symbol));
+                _primaryItems.Add(ShellNavigationItem.FromType<WebViewPage>(site.Name, site.Symbol, site.ID));
             }
         }
 
@@ -123,6 +124,16 @@ namespace CompactView.Views
         private void NavigationButton_Click(object sender, RoutedEventArgs e)
         {
             var navigationButton = sender as Button;
+            if (DisplayMode == SplitViewDisplayMode.CompactOverlay || DisplayMode == SplitViewDisplayMode.Overlay)
+            {
+                IsPaneOpen = false;
+            }
+            Navigate(navigationButton.DataContext);
+        }
+
+        private void SlidableListItem_Click(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            var navigationButton = sender as SlidableListItem;
             if (DisplayMode == SplitViewDisplayMode.CompactOverlay || DisplayMode == SplitViewDisplayMode.Overlay)
             {
                 IsPaneOpen = false;
@@ -173,6 +184,15 @@ namespace CompactView.Views
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             UseWebsite.AddNewAsync("Test", new Uri("https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/dialogs"));
+            PopulateNavItems();
+        }
+
+        private void RightSlide_Click(object sender, EventArgs e)
+        {
+            long iD = Convert.ToInt64((sender as SlidableListItem).Tag.ToString());
+
+
+            UseWebsite.Delete(iD);
             PopulateNavItems();
         }
     }

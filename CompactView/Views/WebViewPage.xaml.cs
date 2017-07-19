@@ -86,6 +86,7 @@ namespace CompactView.Views
 
         private void Current_Activated(object sender, WindowActivatedEventArgs e)
         {
+            ModeChanged();
             if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
             {
                 BackButtonGrid.Visibility = Visibility.Visible;
@@ -132,6 +133,7 @@ namespace CompactView.Views
             {
                 bool modeSwitched = await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
             }
+            ModeChanged();
         }
 
         private void Focus_Click(object sender, RoutedEventArgs e)
@@ -153,7 +155,21 @@ namespace CompactView.Views
                     //CommandBar.Visibility = Visibility.Collapsed;
                 }
             }
+            ModeChanged();
+        }
 
+        private async void Normal_Click(object sender, RoutedEventArgs e)
+        {
+            var view = ApplicationView.GetForCurrentView();
+            if (view.ViewMode.ToString() != "CompactOverlay")
+            {
+                bool modeSwitched = await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+            }
+            else
+            {
+                bool modeSwitched = await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
+            }
+            ModeChanged();
         }
 
         private bool IsFullscreen()
@@ -169,12 +185,72 @@ namespace CompactView.Views
                 return false;
             }
         }
+        private bool IsCompactview()
+        {
+            var view = ApplicationView.GetForCurrentView();
+            if (view.ViewMode.ToString() == "CompactOverlay")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private bool IsNormalscreen()
+        {
+            var view = ApplicationView.GetForCurrentView();
+
+            if (!IsFullscreen() && !IsCompactview())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            ModeChanged();
+        }
+
+        private void ModeChanged()
+        {
+            //FocuseMode
             if (!IsFullscreen())
             {
-                //CommandBar.Visibility = Visibility.Visible;
+                FocuseMode.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                FocuseMode.Visibility = Visibility.Collapsed;
+            }
+            //MiniMode
+            if (!IsCompactview())
+            {
+                MiniMode.Visibility = Visibility.Visible;
+                textBox.Visibility = Visibility.Visible;
+                Go.Visibility = Visibility.Visible;
+                SpaceForHamburger.Width = new GridLength(0, GridUnitType.Star);
+            }
+            else
+            {
+                MiniMode.Visibility = Visibility.Collapsed;
+                textBox.Visibility = Visibility.Collapsed;
+                Go.Visibility = Visibility.Collapsed;
+                SpaceForHamburger.Width = new GridLength(48, GridUnitType.Pixel);
+            }
+            //NormalMode
+            if (!IsNormalscreen())
+            {
+                NormalMode.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                NormalMode.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -249,6 +325,11 @@ namespace CompactView.Views
             };
 
             ContentDialogResult result = await noWifiDialog.ShowAsync();
+        }
+
+        private void webView1_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ModeChanged();
         }
     }
 }

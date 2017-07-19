@@ -5,8 +5,66 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:CompactView.Views"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
     <Page.Resources>
+        <DataTemplate x:Key="NavigationMenuPrimaryItemsDataTemplate" x:DataType="local:ShellNavigationItem">
+            <controls:SlidableListItem 
+                Tag="{x:Bind ID}"
+                Height="48"
+                Margin="0"
+                Padding="0,9"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                AutomationProperties.AccessibilityView="Control"
+                AutomationProperties.LandmarkType="Navigation"
+                AutomationProperties.Name="{x:Bind Label}"
+                Background="Transparent"
+                BorderThickness="0"
+                Tapped="SlidableListItem_Click"
+                    LeftIcon="Go" 
+                    RightIcon="Delete" 
+                    LeftLabel="Go" 
+                    RightLabel="Delete"
+                    LeftBackground="#FF00FF7F" 
+                    RightBackground="OrangeRed"
+                    LeftForeground ="White" 
+                    RightForeground ="White"
+                    ActivationWidth="100"
+                    IsLeftCommandEnabled="False"
+                    IsRightCommandEnabled="True"
+                    IsOffsetLimited="True"
+                    MouseSlidingEnabled="True"
+                    IsPointerReleasedOnSwipingHandled="False"
+                    RightCommandRequested="RightSlide_Click"
+                    RightCommandParameter="{Binding}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Rectangle
+                        Width="6"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Stretch"
+                        Fill="{ThemeResource SystemControlForegroundAccentBrush}"
+                        Visibility="{x:Bind SelectedVis, Mode=OneWay}" />
+                    <FontIcon
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Foreground="{x:Bind SelectedForeground, Mode=OneWay}"
+                        Glyph="{x:Bind SymbolAsChar}" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="0,0,24,0"
+                        VerticalAlignment="Center"
+                        Foreground="{x:Bind SelectedForeground, Mode=OneWay}"
+                        Text="{x:Bind Label}"
+                        TextTrimming="CharacterEllipsis" />
+                </Grid>
+            </controls:SlidableListItem>
+        </DataTemplate>
         <DataTemplate x:Key="NavigationMenuItemDataTemplate" x:DataType="local:ShellNavigationItem">
             <Button
                 Margin="0"
@@ -72,7 +130,7 @@
                             <ItemsControl
                                 VerticalAlignment="Top"
                                 IsTabStop="False"
-                                ItemTemplate="{StaticResource NavigationMenuItemDataTemplate}"
+                                ItemTemplate="{StaticResource NavigationMenuPrimaryItemsDataTemplate}"
                                 ItemsSource="{x:Bind PrimaryItems, Mode=OneWay}" />
                             <Button Grid.Row="1" x:Name="AddButton" Width="48" Height="48" VerticalAlignment="Bottom" FontFamily="Segoe MDL2 Assets" Content="&#xE710;" Click="AddButton_Click" Background="Transparent"/>
                             <ItemsControl

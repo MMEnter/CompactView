@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <Grid Background="Transparent" Grid.Row="0" x:Name="TitleBar">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="48"/>
+                <ColumnDefinition Width="48" x:Name="SpaceForHamburger"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
@@ -21,8 +21,9 @@
             </Grid.ColumnDefinitions>
             <Grid x:Name="BackButtonGrid" Grid.Column="1" Background="White">
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="FocuseMode" Content="&#xE1D9;" Background="Transparent" Click="Focus_Click" FontFamily="Segoe MDL2 Assets" Foreground="Black" />
-                    <Button x:Name="MiniMode" Click="MiniView_Click" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="Black" Height="{Binding Height, ElementName=FocuseMode}" >
+                    <Button x:Name="FocuseMode" Visibility="Collapsed" Content="&#xE1D9;" Background="Transparent" Click="Focus_Click" FontFamily="Segoe MDL2 Assets" Foreground="Black" />
+                    <Button x:Name="NormalMode" Visibility="Collapsed" Content="&#xE7F4;" Background="Transparent" Click="Normal_Click" FontFamily="Segoe MDL2 Assets" Foreground="Black"/>
+                    <Button x:Name="MiniMode" Visibility="Collapsed"    Click="MiniView_Click" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="Black" Height="{Binding Height, ElementName=FocuseMode}" >
                         <Image Source="ms-appx:///Assets/WebViewLogo.png" Stretch="UniformToFill" MaxHeight="50"/>
                     </Button>
                     <TextBox x:Name="textBox" KeyUp="textBox_KeyUp" Foreground="Black" />
@@ -37,6 +38,6 @@
             </Grid>
         </Grid>
         <!--Change Source to url of your Choice Source="{x:Bind Source, Mode=OneWay}"-->
-        <WebView x:Name="webView1" Grid.Row="1" Source=""/>
+        <WebView x:Name="webView1" Grid.Row="1" Source="" SizeChanged="webView1_SizeChanged"/>
     </Grid>
 </Page>

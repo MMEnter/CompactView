@@ -12,6 +12,8 @@ namespace CompactView.Views
     {
         private bool _isSelected;
 
+        public long ID;
+
         private Visibility _selectedVis = Visibility.Collapsed;
         public Visibility SelectedVis
         {
@@ -68,9 +70,24 @@ namespace CompactView.Views
             Services.ThemeSelectorService.OnThemeChanged += (s, e) => { if (!IsSelected) SelectedForeground = GetStandardTextColorBrush(); };
         }
 
+        public ShellNavigationItem(string name, Symbol symbol, Type type, long iD)
+        {
+            this.Label = name;
+            Symbol = symbol;
+            this.PageType = type;
+            ID = iD;
+
+            Services.ThemeSelectorService.OnThemeChanged += (s, e) => { if (!IsSelected) SelectedForeground = GetStandardTextColorBrush(); };
+        }
+
         public static ShellNavigationItem FromType<T>(string name, Symbol symbol) where T : Page
         {
             return new ShellNavigationItem(name, symbol, typeof(T));
+        }
+
+        public static ShellNavigationItem FromType<T>(string name, Symbol symbol, long iD) where T : Page
+        {
+            return new ShellNavigationItem(name, symbol, typeof(T), iD);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

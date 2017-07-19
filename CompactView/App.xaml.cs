@@ -5,6 +5,7 @@ using CompactView.Services;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
+using CompactView.Models;
 
 namespace CompactView
 {
@@ -23,6 +24,7 @@ namespace CompactView
         public App()
         {
             InitializeComponent();
+            UseWebsite.LoadAsync();
 
             EnteredBackground += App_EnteredBackground;
 
