@@ -14,6 +14,7 @@ using CompactView.Models;
 using System.Collections.Generic;
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace CompactView.Views
 {
@@ -22,6 +23,8 @@ namespace CompactView.Views
         private const string PanoramicStateName = "PanoramicState";
         private const string WideStateName = "WideState";
         private const string NarrowStateName = "NarrowState";
+
+        bool isReadOnly = true;
 
         private bool _isPaneOpen;
         public bool IsPaneOpen
@@ -183,7 +186,11 @@ namespace CompactView.Views
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            UseWebsite.AddNewAsync("Test", new Uri("https://docs.microsoft.com/en-us/windows/uwp/controls-and-patterns/dialogs"));
+            AppSettings appSettings = new AppSettings();
+
+            string Name = new Uri(appSettings.Uri).Host.ToString();
+
+            UseWebsite.AddNewAsync(Name, new Uri(appSettings.Uri));
             PopulateNavItems();
         }
 
@@ -195,5 +202,80 @@ namespace CompactView.Views
             UseWebsite.Delete(iD);
             PopulateNavItems();
         }
+
+        private void SlidableListItem_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+
+        private void NewNameTextBox_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                long iD = Convert.ToInt64((sender as TextBox).Tag.ToString());
+                string name = (sender as TextBox).Text.ToString();
+
+                UseWebsite.Rename(iD, name);
+                manual = true;
+            }
+
+            PopulateNavItems();
+        }
+
+        private async void LeftSlide_Click(object sender, EventArgs e)
+        {
+            long iD = Convert.ToInt64((sender as SlidableListItem).Tag.ToString());
+            //(sender as SlidableListItem).
+
+            //RenameDialogTextBox.Text = UseWebsite.GetWebsite(iD).Name;
+
+            ContentDialogResult result = await RenameContentDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                UseWebsite.Rename(iD, RenameDialogTextBox.Text.ToString());
+                PopulateNavItems();
+            }
+            else
+            {
+                // User pressed Cancel, ESC, or the back arrow.
+                // Terms of use were not accepted.
+            }
+        }
+
+        private bool manual = false;
+
+        private void flyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs args)
+        {
+            if (manual == true)
+            {
+                args.Cancel = false;
+            }
+            else
+            {
+                args.Cancel = true;
+
+            }
+            manual = false;
+        }
+
+        private void RenameContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
+        {
+
+        }
+
+        private void TextBox_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            
+        }
+
+        private void NewName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            long iD = Convert.ToInt64((sender as TextBox).Tag.ToString());
+            string name = (sender as TextBox).Text.ToString();
+
+            UseWebsite.Rename(iD, name);
+            manual = true;
+        }
     }
+
 }

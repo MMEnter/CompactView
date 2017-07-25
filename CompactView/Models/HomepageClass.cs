@@ -33,6 +33,17 @@ namespace CompactView.Models
             return UseWebsite.websites;
         }
 
+        public static Website GetWebsite(long iD)
+        {
+            Website website = websites.Find(
+            delegate (Website site)
+            {
+                return site.ID == iD;
+            }
+            );
+            return website;
+        }
+
         public static void AddNewAsync(string name, Uri uRL)
         {
             long iD = Convert.ToInt64(DateTime.Now.Ticks);
@@ -46,13 +57,14 @@ namespace CompactView.Models
 
         public static void Delete(long iD)
         {
-            Website deleteSite = websites.Find(
-                delegate (Website site)
-                {
-                    return site.ID == iD;
-                }
-                );
-            websites.Remove(deleteSite);
+            websites.Remove(GetWebsite(iD));
+            SaveAsync(websites);
+        }
+
+        public static void Rename(long iD, string newName)
+        {
+            GetWebsite(iD).Name = newName;
+            SaveAsync(websites);
         }
 
         public static async Task SaveAsync(List<Website> keyLargeObject)

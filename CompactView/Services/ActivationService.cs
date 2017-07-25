@@ -85,6 +85,8 @@ namespace CompactView.Services
 
         private async Task StartupAsync()
         {
+            await WhatsNewDisplayService.ShowIfAppropriate();
+            await FirstRunDisplayService.ShowIfAppropriate();
             Services.ThemeSelectorService.SetRequestedTheme();
             await Task.CompletedTask;
         }

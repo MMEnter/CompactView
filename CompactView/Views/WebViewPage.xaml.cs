@@ -87,6 +87,11 @@ namespace CompactView.Views
         private void Current_Activated(object sender, WindowActivatedEventArgs e)
         {
             ModeChanged();
+            IsActive(e);
+        }
+
+        private void IsActive(WindowActivatedEventArgs e)
+        {
             if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
             {
                 BackButtonGrid.Visibility = Visibility.Visible;
@@ -331,5 +336,6 @@ namespace CompactView.Views
         {
             ModeChanged();
         }
+
     }
 }

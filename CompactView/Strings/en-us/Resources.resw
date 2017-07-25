@@ -142,7 +142,7 @@
     <value>Privacy Terms</value>
   </data>
   <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">
-    <value>https://YourPrivacyUrlGoesHere/</value>
+    <value>https://mmenter.wordpress.com/privacy-terms-compact-view/</value>
   </data>
   <data name="Tabbed_Pivot.Text" xml:space="preserve">
     <value>Tabbed</value>
@@ -163,7 +163,7 @@
     <value>Tabbed</value>
   </data>
   <data name="Settings_VersionNumber" xml:space="preserve">
-    <value>v. 1.0</value>
+    <value>v. 1.2</value>
   </data>
   <data name="Settings_Using.Text" xml:space="preserve">
     <value>Packages Used</value>
@@ -171,5 +171,19 @@
   <data name="Settings_UsingDescription.Text" xml:space="preserve">
     <value>Microsot UWP Toolkit
 Microsoft Template Builder</value>
+  </data>
+  <data name="FirstRun_Body.Text" xml:space="preserve">
+    <value>Use the textbox in the titel bar to neavigate to a website. The Past and Go button allows a quick way to navigate to a back that you have saved on the clipboard.
+
+The + button in the bottom left allows you to save the current Homepage to your list. Swipping items in the list allows you to delet them from the list. Right clicking and item allows you to rename it.</value>
+  </data>
+  <data name="FirstRun_Title.Text" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="AfterUpdate_Body.Text" xml:space="preserve">
+    <value>-added support to add websites to list.</value>
+  </data>
+  <data name="AfterUpdate_Title.Text" xml:space="preserve">
+    <value>What's new in this version</value>
   </data>
 </root>

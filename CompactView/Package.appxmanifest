@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/windowsTemplateStudio" IgnorableNamespaces="uap mp genTemplate">
-  <Identity Name="27C81907-B289-4E9A-BF50-B3F8771FB0EF" Publisher="CN=eck_m" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="27C81907-B289-4E9A-BF50-B3F8771FB0EF" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="37071MMEnter.CompactView" Publisher="CN=2E6656DE-02B6-417F-9BD1-799CCC9181A9" Version="1.1.2.0" />
+  <mp:PhoneIdentity PhoneProductId="eafc5f5b-5faf-44cb-9106-037ed63c80cf" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>CompactView</DisplayName>
-    <PublisherDisplayName>Merlin Eck</PublisherDisplayName>
+    <DisplayName>Compact View</DisplayName>
+    <PublisherDisplayName>MMEnter</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="CompactView.App">
-      <uap:VisualElements DisplayName="CompactView" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="CompactView" BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="Compact View" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="CompactView" BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
@@ -29,5 +29,7 @@
     <genTemplate:Item Name="generator" Value="Windows Template Studio" />
     <genTemplate:Item Name="wizardVersion" Version="1.0.17142.1" />
     <genTemplate:Item Name="templatesVersion" Version="1.0.17142.1" />
+    <genTemplate:Item Name="projectType" Value="SplitView" />
+    <genTemplate:Item Name="framework" Value="CodeBehind" />
   </genTemplate:Metadata>
 </Package>

@@ -25,6 +25,7 @@ namespace CompactView.Views
         public Symbol Symbol { get; set; }
         public char SymbolAsChar { get { return (char)Symbol; } }
         public Type PageType { get; set; }
+        public bool isReadOnly { get; set; }
 
         public bool IsSelected
         {
