@@ -27,8 +27,8 @@
                         <Image Source="ms-appx:///Assets/WebViewLogo.png" Stretch="UniformToFill" MaxHeight="50"/>
                     </Button>
                     <TextBox x:Name="textBox" KeyUp="textBox_KeyUp" Foreground="Black" />
-                    <Button x:Name="Go" Content="GO" Background="Transparent" Click="Go_Click"  Foreground="Black" />
-                    <Button x:Name="PastAndGo" Click="PastAndGo_ClickAsync" Content="Past and Go" Background="Transparent" Foreground="Black" />
+                    <Button x:Name="Go" x:Uid="WebViewPage_Go" Content="GO" Background="Transparent" Click="Go_Click"  Foreground="Black" />
+                    <Button x:Name="PastAndGo" x:Uid="WebViewPage_PastAndGo" Click="PastAndGo_ClickAsync" Content="Past and Go" Background="Transparent" Foreground="Black" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Column="2" x:Name="MainTitleBar" Background="Transparent">

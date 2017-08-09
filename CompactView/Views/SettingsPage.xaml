@@ -46,6 +46,9 @@
                 <HyperlinkButton
                     x:Uid="Settings_PrivacyTermsLink"
                     Margin="0,8,0,0"/>
+                <HyperlinkButton
+                    x:Uid="Settings_GitHubLink"
+                    Margin="0,8,0,0"/>
             </StackPanel>
 
             <StackPanel Grid.Row="2" Margin="0,16,0,0">

@@ -90,7 +90,7 @@ namespace CompactView.Views
 
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)
         {
-            var item = PrimaryItems?.FirstOrDefault(i => i.PageType == e?.SourcePageType);
+            var item = PrimaryItems?.FirstOrDefault(i => i.Label == e?.Parameter.ToString());
             if (item == null)
             {
                 item = SecondaryItems?.FirstOrDefault(i => i.PageType == e?.SourcePageType);
