@@ -8,16 +8,6 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
     <Page.Resources>
-        <ContentDialog 
-                    Title="Rename"
-                    x:Name="RenameContentDialog"
-                    PrimaryButtonText="Save"
-                    CloseButtonText="Cancel"
-                    Opened="RenameContentDialog_Opened">
-            <StackPanel>
-                <TextBox x:Name="RenameDialogTextBox" Margin="24" KeyUp="TextBox_KeyUp"/>
-            </StackPanel>
-        </ContentDialog>
         <DataTemplate x:Key="NavigationMenuPrimaryItemsDataTemplate" x:DataType="local:ShellNavigationItem">
             <controls:SlidableListItem 
                 Tag="{x:Bind ID}"
@@ -32,11 +22,11 @@
                 Background="Transparent"
                 BorderThickness="0"
                 Tapped="SlidableListItem_Click"
-                    LeftIcon="Go" 
+                    LeftIcon="Edit" 
                     RightIcon="Delete" 
-                    LeftLabel="Go" 
+                    LeftLabel="Edit" 
                     RightLabel="Delete"
-                    LeftBackground="#FF00FF7F" 
+                    LeftBackground="{ThemeResource AccentButtonBackground}" 
                     RightBackground="OrangeRed"
                     LeftForeground ="White" 
                     RightForeground ="White"
@@ -69,27 +59,15 @@
                         Foreground="{x:Bind SelectedForeground, Mode=OneWay}"
                         Glyph="{x:Bind SymbolAsChar}" />
                     <TextBlock
-                        x:Name="RenameBlock"
+                        x:Name="NameBlock"
                         Grid.Column="1"
                         Margin="0,0,24,0"
                         VerticalAlignment="Center"
                         Foreground="{x:Bind SelectedForeground, Mode=OneWay}"
-                        Text="{x:Bind Label}"
-                        TextTrimming="CharacterEllipsis" />
+                        Text="{x:Bind Label}"/>
+                    <Button x:Name="Pin"   Visibility="Collapsed" Tag="{x:Bind ID}" Content="&#xE840;" Click="Pin_Click"   FontFamily="Segoe MDL2 Assets"/>
+                    <Button x:Name="Unpin" Visibility="Collapsed" Tag="{x:Bind ID}" Content="&#xE77A;" Click="Unpin_Click" FontFamily="Segoe MDL2 Assets"/>
                 </Grid>
-                <FlyoutBase.AttachedFlyout>
-                    <Flyout x:Name="itemFlyout" Closing="flyout_Closing">
-                        <StackPanel>
-                            <TextBox 
-                                Header="Name:"
-                                Margin="20,10,0,0"
-                                x:Name="NewName"
-                                Text="{x:Bind Label}"
-                                KeyUp="NewNameTextBox_KeyUp"
-                                Tag="{x:Bind ID}" LostFocus="NewName_LostFocus"/>
-                        </StackPanel>
-                    </Flyout>
-                </FlyoutBase.AttachedFlyout>
             </controls:SlidableListItem>
         </DataTemplate>
         <DataTemplate x:Key="NavigationMenuItemDataTemplate" x:DataType="local:ShellNavigationItem">
@@ -176,7 +154,7 @@
                 <Frame x:Name="shellFrame"/>
             </Grid>
         </SplitView>
-        <!--  Mavigation menu button  -->
+        <!--  Navigation menu button  -->
         <Button Width="48" Height="48" BorderThickness="0" Background="Transparent" Click="OpenPane_Click">
             <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE700;" FontSize="16"/>
         </Button>

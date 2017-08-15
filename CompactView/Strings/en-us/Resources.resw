@@ -133,7 +133,7 @@
     <value>About this application</value>
   </data>
   <data name="Settings_AboutDescription.Text" xml:space="preserve">
-    <value>This app allows you to display homepages in picture in picture mode to always keep inportant information on top or to keep your movie in sight. This App is available on GitHub to contribute or alter for your personal needs.</value>
+    <value>This app allows you to display homepages in picture in picture mode to always keep important information on top or to keep your movie in sight. This App is available on GitHub to contribute or alter for your personal needs.</value>
   </data>
   <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
     <value>Privacy Terms</value>
@@ -161,15 +161,17 @@
 Microsoft Template Builder</value>
   </data>
   <data name="FirstRun_Body.Text" xml:space="preserve">
-    <value>Use the textbox in the titel bar to neavigate to a website. The Past and Go button allows a quick way to navigate to a back that you have saved on the clipboard.
+    <value>Use the textbox in the title bar to navigate to a website. The Past and Go button allows a quick way to navigate to a back that you have saved on the clipboard.
 
-The + button in the bottom left allows you to save the current Homepage to your list. Swipping items in the list allows you to delet them from the list. Right clicking and item allows you to rename it.</value>
+The + button in the bottom left allows you to save the current Homepage to your list. Swiping items in the list allows you to delete them from the list. Right clicking and item allows you to rename it.</value>
   </data>
   <data name="FirstRun_Title.Text" xml:space="preserve">
     <value>Welcome</value>
   </data>
   <data name="AfterUpdate_Body.Text" xml:space="preserve">
-    <value>-added support to add websites to list.</value>
+    <value>- Changed the editing experience
+- Added a Link to the Git repository under settings
+- Fixed Selected Website Indicator</value>
   </data>
   <data name="AfterUpdate_Title.Text" xml:space="preserve">
     <value>What's new in this version</value>
@@ -185,5 +187,17 @@ The + button in the bottom left allows you to save the current Homepage to your 
   </data>
   <data name="WebViewPage_PastAndGo.Content" xml:space="preserve">
     <value>Past and Go</value>
+  </data>
+  <data name="RenameDialog_Name" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="RenameDialog_Symbol" xml:space="preserve">
+    <value>Symbol:</value>
+  </data>
+  <data name="RenameDialog_SymbolList" xml:space="preserve">
+    <value>Coming Soon</value>
+  </data>
+  <data name="RenameDialog_URL" xml:space="preserve">
+    <value>URL:</value>
   </data>
 </root>

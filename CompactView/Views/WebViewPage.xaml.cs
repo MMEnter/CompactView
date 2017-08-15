@@ -1,3 +1,5 @@
+using CompactView.Data;
+using CompactView.Helpers;
 using CompactView.Helpers;
 using CompactView.Models;
 using CompactView.Services;
@@ -18,24 +20,33 @@ using Windows.UI.Xaml.Navigation;
 namespace CompactView.Views
 {
     public sealed partial class WebViewPage : Page, INotifyPropertyChanged
-    {
-       static AppSettings appSettings = new AppSettings();
+    {       
+        private static DependencyProperty s_websiteProperty
+            = DependencyProperty.Register("Website", typeof(WebsiteViewModel), typeof(WebViewPage), new PropertyMetadata(null));
 
-        private Uri _source = new Uri(appSettings.Uri);
-        public Uri Source
+        public static DependencyProperty WebsiteProperty
         {
-            get { return _source; }
-            set { Set(ref _source, value); }
+            get { return s_websiteProperty; }
         }
+
+        public WebsiteViewModel Website
+        {
+            get { return (WebsiteViewModel)GetValue(s_websiteProperty); }
+            set { SetValue(s_websiteProperty, value); }
+        }
+
+        public Uri uri;
 
         public WebViewPage()
         {
             InitializeComponent();
+            //Checks if the OS version is supporting CompactOverlay.
             if (ApplicationView.GetForCurrentView().IsViewModeSupported(ApplicationViewMode.CompactOverlay))
             {
                 MiniMode.Visibility = Visibility.Visible;
             }
-
+            //replaces the Title Bar with a custom version. Taken from:
+            //https://www.eternalcoding.com/?p=1952
             CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
 
@@ -46,28 +57,28 @@ namespace CompactView.Views
             coreTitleBar.IsVisibleChanged += CoreTitleBar_IsVisibleChanged;
             coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
 
-            webView1.Source = _source;
+            if (Website == null)
+            {
+                Website = WebsiteViewModel.FromWebsite(WebsiteDataSource.GetDefault());
+            }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler PropertyChanged;
 
+        //Checks for the Navigation Parameter and changes the WebView.Source to the requested Website.
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            string Name = e.Parameter.ToString();
+            long iD;
 
-            List<Website> websites = UseWebsite.GetList();
-
-            Website website = websites.Find(
-                delegate(Website site)
-                {
-                    return site.Name == Name;
-                }                
-                );
-            if (website != null)
+            try
             {
-                _source = website.URL;
-                webView1.Source = _source;
+                iD = Convert.ToInt64(e.Parameter);
+                Website = WebsiteViewModel.FromWebsite(WebsiteDataSource.GetWebsite(iD));
+            }
+            catch
+            {
+                Website = WebsiteViewModel.FromWebsite(WebsiteDataSource.GetDefault());
             }
         }
 
@@ -105,7 +116,7 @@ namespace CompactView.Views
                 MainTitleBar.Opacity = 0.5;
 
                 var view = ApplicationView.GetForCurrentView();
-                if (view.ViewMode.ToString() == "CompactOverlay")
+                if (IsCompactview())
                 {
                     TitleBar.Visibility = Visibility.Collapsed;
                 }
@@ -114,8 +125,7 @@ namespace CompactView.Views
 
         void CoreTitleBar_IsVisibleChanged(CoreApplicationViewTitleBar titleBar, object args)
         {
-            var view = ApplicationView.GetForCurrentView();
-            if (view.ViewMode.ToString() != "CompactOverlay")
+            if (!IsCompactview())
             {
                 TitleBar.Visibility = titleBar.IsVisible ? Visibility.Visible : Visibility.Collapsed;
             }
@@ -130,26 +140,27 @@ namespace CompactView.Views
         private async void MiniView_Click(object sender, RoutedEventArgs e)
         {
             var view = ApplicationView.GetForCurrentView();
-            if (view.ViewMode.ToString() != "CompactOverlay")
+            if (!IsCompactview())
             {
-                bool modeSwitched = await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
+                ViewModePreferences compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
+                compactOptions.CustomSize = new Windows.Foundation.Size(500, 281.25);
+                bool modeSwitched = await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay, compactOptions);
             }
             else
             {
-                bool modeSwitched = await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
+                //Should not be reached.
             }
             ModeChanged();
         }
 
-        private void Focus_Click(object sender, RoutedEventArgs e)
+        private void Fullscreen_Click(object sender, RoutedEventArgs e)
         {
             var view = ApplicationView.GetForCurrentView();
-            if (view.IsFullScreenMode)
+            if (IsFullscreen())
             {
                 view.ExitFullScreenMode();
                 ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
                 // The SizeChanged event will be raised when the exit from full-screen mode is complete.
-                //CommandBar.Visibility = Visibility.Visible;
             }
             else
             {
@@ -157,7 +168,6 @@ namespace CompactView.Views
                 {
                     ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
                     // The SizeChanged event will be raised when the entry to full-screen mode is complete.
-                    //CommandBar.Visibility = Visibility.Collapsed;
                 }
             }
             ModeChanged();
@@ -166,14 +176,19 @@ namespace CompactView.Views
         private async void Normal_Click(object sender, RoutedEventArgs e)
         {
             var view = ApplicationView.GetForCurrentView();
-            if (view.ViewMode.ToString() != "CompactOverlay")
-            {
-                bool modeSwitched = await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay);
-            }
-            else
+            if (!IsNormalscreen())
             {
                 bool modeSwitched = await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.Default);
             }
+            else
+            {
+                //Should not be reached.
+            }
+            ModeChanged();
+        }
+
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
             ModeChanged();
         }
 
@@ -216,35 +231,30 @@ namespace CompactView.Views
             }
         }
 
-
-        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ModeChanged();
-        }
-
+        //This method ensures that only the options for the not current mode are available in the UI.
         private void ModeChanged()
         {
             //FocuseMode
             if (!IsFullscreen())
             {
-                FocuseMode.Visibility = Visibility.Visible;
+                FullscreenMode.Visibility = Visibility.Visible;
             }
             else
             {
-                FocuseMode.Visibility = Visibility.Collapsed;
+                FullscreenMode.Visibility = Visibility.Collapsed;
             }
             //MiniMode
             if (!IsCompactview())
             {
                 MiniMode.Visibility = Visibility.Visible;
-                textBox.Visibility = Visibility.Visible;
+                UrlTextBox.Visibility = Visibility.Visible;
                 Go.Visibility = Visibility.Visible;
                 SpaceForHamburger.Width = new GridLength(0, GridUnitType.Star);
             }
             else
             {
                 MiniMode.Visibility = Visibility.Collapsed;
-                textBox.Visibility = Visibility.Collapsed;
+                UrlTextBox.Visibility = Visibility.Collapsed;
                 Go.Visibility = Visibility.Collapsed;
                 SpaceForHamburger.Width = new GridLength(48, GridUnitType.Pixel);
             }
@@ -261,10 +271,8 @@ namespace CompactView.Views
 
         private async Task SourceUpdated()
         {
-            var appSettings = new AppSettings();
             bool validUri = true;
-            string newUri = textBox.Text.ToString();
-            Uri uri;
+            string newUri = UrlTextBox.Text.ToString();
 
             try
             {
@@ -274,15 +282,14 @@ namespace CompactView.Views
             {
                 // Create the message dialog and set its content
                 DisplayDialog("Error", "The URL entered was not a valid URL. A URL has to look like http://www.bing.com ");
-                appSettings.Uri = "https://www.netflix.com";
                 validUri = false;
+                uri = webView.Source;
             }
 
             if (validUri)
             {
-                appSettings.Uri = newUri;
-                _source = new Uri(newUri);
-                webView1.Source = _source;
+                webView.Source = uri;
+                WebsiteDataSource.SetTempSite(uri.Host.ToString(), uri);
             }
         }
 
@@ -293,13 +300,13 @@ namespace CompactView.Views
 
         private async void PastAndGo_ClickAsync(object sender, RoutedEventArgs e)
         {
-            var dataPackageView = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
+            var dataPackageView = Clipboard.GetContent();
             if (dataPackageView.Contains(StandardDataFormats.Text))
             {
                 try
                 {
                     var text = await dataPackageView.GetTextAsync();
-                    textBox.Text = text.ToString();
+                    UrlTextBox.Text = text.ToString();
                     await SourceUpdated();
                 }
                 catch (Exception ex)
@@ -312,7 +319,7 @@ namespace CompactView.Views
             }
         }
 
-        private void textBox_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void UrlTextBox_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {

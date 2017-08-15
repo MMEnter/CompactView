@@ -21,12 +21,12 @@
             </Grid.ColumnDefinitions>
             <Grid x:Name="BackButtonGrid" Grid.Column="1" Background="White">
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="FocuseMode" Visibility="Collapsed" Content="&#xE1D9;" Background="Transparent" Click="Focus_Click" FontFamily="Segoe MDL2 Assets" Foreground="Black" />
+                    <Button x:Name="FullscreenMode" Visibility="Collapsed" Content="&#xE1D9;" Background="Transparent" Click="Fullscreen_Click" FontFamily="Segoe MDL2 Assets" Foreground="Black" />
                     <Button x:Name="NormalMode" Visibility="Collapsed" Content="&#xE7F4;" Background="Transparent" Click="Normal_Click" FontFamily="Segoe MDL2 Assets" Foreground="Black"/>
                     <Button x:Name="MiniMode" Visibility="Collapsed"    Click="MiniView_Click" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="Black" Height="{Binding Height, ElementName=FocuseMode}" >
                         <Image Source="ms-appx:///Assets/WebViewLogo.png" Stretch="UniformToFill" MaxHeight="50"/>
                     </Button>
-                    <TextBox x:Name="textBox" KeyUp="textBox_KeyUp" Foreground="Black" />
+                    <TextBox x:Name="UrlTextBox" KeyUp="UrlTextBox_KeyUp" Foreground="Black" />
                     <Button x:Name="Go" x:Uid="WebViewPage_Go" Content="GO" Background="Transparent" Click="Go_Click"  Foreground="Black" />
                     <Button x:Name="PastAndGo" x:Uid="WebViewPage_PastAndGo" Click="PastAndGo_ClickAsync" Content="Past and Go" Background="Transparent" Foreground="Black" />
                 </StackPanel>
@@ -37,7 +37,7 @@
             <Grid Grid.Column="3" x:Name="RightMask">
             </Grid>
         </Grid>
-        <!--Change Source to url of your Choice Source="{x:Bind Source, Mode=OneWay}"-->
-        <WebView x:Name="webView1" Grid.Row="1" Source="" SizeChanged="webView1_SizeChanged"/>
+
+        <WebView x:Name="webView" Grid.Row="1" Source="{x:Bind Website.URL, Mode=OneWay}" SizeChanged="webView1_SizeChanged"/>
     </Grid>
 </Page>

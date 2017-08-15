@@ -10,11 +10,14 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using static CompactView.Views.WebViewPage;
-using CompactView.Models;
+using CompactView.Helpers;
 using System.Collections.Generic;
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.StartScreen;
+using System.Threading.Tasks;
+using CompactView.Data;
 
 namespace CompactView.Views
 {
@@ -23,8 +26,6 @@ namespace CompactView.Views
         private const string PanoramicStateName = "PanoramicState";
         private const string WideStateName = "WideState";
         private const string NarrowStateName = "NarrowState";
-
-        bool isReadOnly = true;
 
         private bool _isPaneOpen;
         public bool IsPaneOpen
@@ -72,25 +73,22 @@ namespace CompactView.Views
 
         private void PopulateNavItems()
         {
+            List<Website> websites = WebsiteDataSource.GetList();
+
             _primaryItems.Clear();
             _secondaryItems.Clear();
-
-            // More on Segoe UI Symbol icons: https://docs.microsoft.com/windows/uwp/style/segoe-ui-symbol-font
-            // Edit String/en-US/Resources.resw: Add a menu item title for each page
-
-            _secondaryItems.Add(ShellNavigationItem.FromType<SettingsPage>("Shell_Settings".GetLocalized(), Symbol.Setting));
-
-            List<Website> websites = UseWebsite.GetList();
 
             foreach (Website site in websites)
             {
                 _primaryItems.Add(ShellNavigationItem.FromType<WebViewPage>(site.Name, site.Symbol, site.ID));
             }
+
+            _secondaryItems.Add(ShellNavigationItem.FromType<SettingsPage>("Shell_Settings".GetLocalized(), Symbol.Setting));
         }
 
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)
         {
-            var item = PrimaryItems?.FirstOrDefault(i => i.Label == e?.Parameter.ToString());
+            var item = PrimaryItems?.FirstOrDefault(i => i.ID.ToString() == e?.Parameter.ToString());
             if (item == null)
             {
                 item = SecondaryItems?.FirstOrDefault(i => i.PageType == e?.SourcePageType);
@@ -120,7 +118,7 @@ namespace CompactView.Views
             var navigationItem = item as ShellNavigationItem;
             if (navigationItem != null)
             {
-                NavigationService.Navigate(navigationItem.PageType, navigationItem.Label);
+                NavigationService.Navigate(navigationItem.PageType, navigationItem.ID);
             }
         }
 
@@ -186,11 +184,11 @@ namespace CompactView.Views
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            AppSettings appSettings = new AppSettings();
+            Website currentWebsite = WebsiteDataSource.GetTempSite();
+            Uri uri = currentWebsite.URL;
+            string Name = currentWebsite.Name;
 
-            string Name = new Uri(appSettings.Uri).Host.ToString();
-
-            UseWebsite.AddNewAsync(Name, new Uri(appSettings.Uri));
+            WebsiteDataSource.AddNewAsync(Name, uri);
             PopulateNavItems();
         }
 
@@ -199,82 +197,80 @@ namespace CompactView.Views
             long iD = Convert.ToInt64((sender as SlidableListItem).Tag.ToString());
 
 
-            UseWebsite.Delete(iD);
+            WebsiteDataSource.Delete(iD);
             PopulateNavItems();
         }
 
         private void SlidableListItem_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
-            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+            long iD = Convert.ToInt64((sender as SlidableListItem).Tag.ToString());
+            ShowDialog(iD);
         }
 
-        private void NewNameTextBox_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private async Task ShowDialog(long iD)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            var dialog = new RenameDialog();
+            dialog.AccessKey = iD.ToString();
+            await dialog.ShowAsync();
+
+            if (dialog.Result == RenameResult.RenameOK)
             {
-                long iD = Convert.ToInt64((sender as TextBox).Tag.ToString());
-                string name = (sender as TextBox).Text.ToString();
-
-                UseWebsite.Rename(iD, name);
-                manual = true;
+                // Rename was successful.
+                PopulateNavItems();
             }
-
-            PopulateNavItems();
+            else if (dialog.Result == RenameResult.RenameCancel)
+            {
+                // Rename was cancelled by the user.
+            }
         }
 
         private async void LeftSlide_Click(object sender, EventArgs e)
         {
             long iD = Convert.ToInt64((sender as SlidableListItem).Tag.ToString());
-            //(sender as SlidableListItem).
-
-            //RenameDialogTextBox.Text = UseWebsite.GetWebsite(iD).Name;
-
-            ContentDialogResult result = await RenameContentDialog.ShowAsync();
-            if (result == ContentDialogResult.Primary)
-            {
-                UseWebsite.Rename(iD, RenameDialogTextBox.Text.ToString());
-                PopulateNavItems();
-            }
-            else
-            {
-                // User pressed Cancel, ESC, or the back arrow.
-                // Terms of use were not accepted.
-            }
+            ShowDialog(iD);
         }
 
-        private bool manual = false;
-
-        private void flyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs args)
+        private void Pin_Click(object sender, RoutedEventArgs e)
         {
-            if (manual == true)
-            {
-                args.Cancel = false;
-            }
-            else
-            {
-                args.Cancel = true;
-
-            }
-            manual = false;
+            long iD = Convert.ToInt64((sender as Button).Tag.ToString());
+            PinTileAsync(iD);
         }
 
-        private void RenameContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
+        private async Task PinTileAsync(long iD)
         {
+            string tileId = "website" + iD;
+            string displayName = WebsiteDataSource.GetWebsite(iD).Name;
+            string arguments = iD.ToString();
 
+            // Initialize the tile with required arguments
+            SecondaryTile tile = new SecondaryTile(
+                tileId,
+                displayName,
+                arguments,
+                new Uri("ms-appx:///Assets/Square150x150Logo.png"),
+                TileSize.Default);
+
+            // Pin the tile
+            bool isPinned = await tile.RequestCreateAsync();
+
+            // TODO: Update UI to reflect whether user can now either unpin or pin
         }
 
-        private void TextBox_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void Unpin_Click(object sender, RoutedEventArgs e)
         {
-            
+            long iD = Convert.ToInt64((sender as Button).Tag.ToString());
+            UnpinTile(iD);
         }
 
-        private void NewName_LostFocus(object sender, RoutedEventArgs e)
+        private async Task UnpinTile(long iD)
         {
-            long iD = Convert.ToInt64((sender as TextBox).Tag.ToString());
-            string name = (sender as TextBox).Text.ToString();
+            string tileId = "website" + iD;
 
-            UseWebsite.Rename(iD, name);
-            manual = true;
+            // Initialize a secondary tile with the same tile ID you want removed
+            SecondaryTile toBeDeleted = new SecondaryTile(tileId);
+
+            // And then unpin the tile
+            await toBeDeleted.RequestDeleteAsync();
         }
     }
 
