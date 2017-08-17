@@ -39,7 +39,7 @@ namespace CompactView.Data
             //Returns either the first element in the list or a default page when the list is empty.
             public static Website GetDefault()
             {
-                if (_websites.Count == 0)
+            if (_websites.Count == 0)
                 {
                     return new Website() { Name = "Bing", URL = new Uri("https://www.bing.com/"), Symbol = Symbol.Globe };
                 }
@@ -62,7 +62,7 @@ namespace CompactView.Data
                 return website;
             }
 
-            public static void AddNewAsync(string name, Uri uRL)
+            public static async Task<long> AddNewAsync(string name, Uri uRL)
             {
                 long iD = Convert.ToInt64(DateTime.Now.Ticks);
                 Symbol symbol = Symbol.Globe;
@@ -70,7 +70,8 @@ namespace CompactView.Data
                 Website newSite = new Website() { ID = iD, Name = name, URL = uRL, Symbol = symbol };
 
                 _websites.Add(newSite);
-                SaveAsync(_websites);
+                await SaveAsync(_websites);
+                return iD;
             }
 
             public static void Delete(long iD)
@@ -110,5 +111,5 @@ namespace CompactView.Data
                 RoamingObjectStorageHelper helper = new RoamingObjectStorageHelper();
                 _websites = await helper.ReadFileAsync("keyWebsites", _websites);
             }
-        }
+    }
     }

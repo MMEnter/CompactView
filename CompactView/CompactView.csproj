@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activation\ActivationHandler.cs" />
+    <Compile Include="Activation\ProtocolActivationHandler.cs" />
     <Compile Include="Data\Website.cs" />
     <Compile Include="Data\WebsiteDataSource.cs" />
     <Compile Include="Helpers\Json.cs" />
