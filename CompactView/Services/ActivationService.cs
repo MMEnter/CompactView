@@ -11,6 +11,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using CompactView.Data;
 
 namespace CompactView.Services
 {
@@ -30,11 +31,22 @@ namespace CompactView.Services
 
         public async Task ActivateAsync(object activationArgs)
         {
+            long iD=-1;
             if (IsInteractive(activationArgs))
             {
+
+                if (((IActivatedEventArgs)activationArgs).Kind == ActivationKind.Protocol)
+                {
+                    var targetUrl = Uri.UnescapeDataString(((ProtocolActivatedEventArgs)activationArgs).Uri.Query.Substring(1));
+                    Uri uri = new Uri(targetUrl);
+                    string Name = uri.Host;
+                    iD = await WebsiteDataSource.AddNewAsync(Name, uri);
+                }
+
                 // Initialize things like registering background task before the app is loaded
                 await InitializeAsync();
-                
+
+
                 // Do not repeat app initialization when the Window already has content,
                 // just ensure that the window is active
                 if (Window.Current.Content == null)
@@ -68,12 +80,25 @@ namespace CompactView.Services
                 {
                     await defaultHandler.HandleAsync(activationArgs);
                 }
+                else
+                {
+                    var protocolHandler = new ProtocolActivationHandler(_defaultNavItem,iD);
+                    if (protocolHandler.CanHandle(activationArgs))
+                    {
+                        await protocolHandler.HandleAsync(activationArgs);
+                    }
+                }
 
                 // Ensure the current window is active
                 Window.Current.Activate();
 
                 // Tasks after activation
                 await StartupAsync();
+
+                if (iD != -1) //If the app has been launched via protocol
+                {
+                    await ((Views.WebViewPage)NavigationService.Frame.Content).EnterMiniView();
+                }
             }
         }
 

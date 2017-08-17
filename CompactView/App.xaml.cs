@@ -7,6 +7,8 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using CompactView.Helpers;
 using CompactView.Data;
+using Windows.ApplicationModel.DataTransfer.ShareTarget;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace CompactView
 {
@@ -65,6 +67,18 @@ namespace CompactView
         private ActivationService CreateActivationService()
         {
             return new ActivationService(this, typeof(Views.WebViewPage), new Views.ShellPage());
+        }
+
+        protected override async void OnShareTargetActivated(ShareTargetActivatedEventArgs args)
+        {
+            ShareOperation shareOperation = args.ShareOperation;
+            if (shareOperation.Data.Contains(StandardDataFormats.WebLink))
+            {
+                Uri uri = await shareOperation.Data.GetWebLinkAsync();
+                await Windows.System.Launcher.LaunchUriAsync(new Uri("compactview:?"+Uri.EscapeDataString(uri.ToString())));
+
+            }
+            shareOperation.ReportCompleted();
         }
     }
 }

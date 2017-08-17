@@ -139,6 +139,11 @@ namespace CompactView.Views
 
         private async void MiniView_Click(object sender, RoutedEventArgs e)
         {
+            await EnterMiniView();
+        }
+
+        public async Task EnterMiniView()
+        {
             var view = ApplicationView.GetForCurrentView();
             if (!IsCompactview())
             {
