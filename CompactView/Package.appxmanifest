@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/windowsTemplateStudio" IgnorableNamespaces="uap mp genTemplate">
-  <Identity Name="37071MMEnter.CompactView" Publisher="CN=2E6656DE-02B6-417F-9BD1-799CCC9181A9" Version="1.1.2.0" />
+  <Identity Name="37071MMEnter.CompactView" Publisher="CN=2E6656DE-02B6-417F-9BD1-799CCC9181A9" Version="1.1.5.0" />
   <mp:PhoneIdentity PhoneProductId="eafc5f5b-5faf-44cb-9106-037ed63c80cf" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Compact View</DisplayName>
@@ -23,6 +23,13 @@
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.shareTarget">
+          <uap:ShareTarget>
+            <uap:DataFormat>weblink</uap:DataFormat>
+          </uap:ShareTarget>
+        </uap:Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>

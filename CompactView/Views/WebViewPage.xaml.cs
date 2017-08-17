@@ -71,14 +71,21 @@ namespace CompactView.Views
             base.OnNavigatedTo(e);
             long iD;
 
-            try
+            if (e.Parameter.ToString().StartsWith("ID:"))
             {
-                iD = Convert.ToInt64(e.Parameter);
-                Website = WebsiteViewModel.FromWebsite(WebsiteDataSource.GetWebsite(iD));
+                try
+                {
+                    iD = Convert.ToInt64(e.Parameter.ToString().Remove(0,3));
+                    Website = WebsiteViewModel.FromWebsite(WebsiteDataSource.GetWebsite(iD));
+                }
+                catch
+                {
+                    Website = WebsiteViewModel.FromWebsite(WebsiteDataSource.GetDefault());
+                }
             }
-            catch
+            else if(false)
             {
-                Website = WebsiteViewModel.FromWebsite(WebsiteDataSource.GetDefault());
+                Website = WebsiteViewModel.FromWebsite(WebsiteDataSource.GetTempSite());
             }
         }
 
@@ -271,8 +278,13 @@ namespace CompactView.Views
 
         private async Task SourceUpdated()
         {
-            bool validUri = true;
             string newUri = UrlTextBox.Text.ToString();
+            NewUri(newUri);
+        }
+
+        public void NewUri(string newUri)
+        {
+            bool validUri = true;
 
             try
             {
@@ -291,6 +303,14 @@ namespace CompactView.Views
                 webView.Source = uri;
                 WebsiteDataSource.SetTempSite(uri.Host.ToString(), uri);
             }
+        }
+
+        public static void Test(Uri fu)
+        {
+            var test = WebViewPage;
+            if (Page is test)
+            ((test)Page).SendSessionVariables();
+            webView.Source = fu;
         }
 
         private void Go_Click(object sender, RoutedEventArgs e)
@@ -329,14 +349,14 @@ namespace CompactView.Views
 
         private async void DisplayDialog(string title, string content)
         {
-            ContentDialog noWifiDialog = new ContentDialog
+            ContentDialog dialog = new ContentDialog
             {
                 Title = title,
                 Content = content,
                 CloseButtonText = "Ok"
             };
 
-            ContentDialogResult result = await noWifiDialog.ShowAsync();
+            ContentDialogResult result = await dialog.ShowAsync();
         }
 
         private void webView1_SizeChanged(object sender, SizeChangedEventArgs e)

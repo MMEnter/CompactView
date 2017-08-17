@@ -188,16 +188,13 @@ The + button in the bottom left allows you to save the current Homepage to your 
   <data name="WebViewPage_PastAndGo.Content" xml:space="preserve">
     <value>Past and Go</value>
   </data>
-  <data name="RenameDialog_Name" xml:space="preserve">
+  <data name="EditDialog_Name" xml:space="preserve">
     <value>Name:</value>
   </data>
-  <data name="RenameDialog_Symbol" xml:space="preserve">
+  <data name="EditDialog_Symbol" xml:space="preserve">
     <value>Symbol:</value>
   </data>
-  <data name="RenameDialog_SymbolList" xml:space="preserve">
-    <value>Coming Soon</value>
-  </data>
-  <data name="RenameDialog_URL" xml:space="preserve">
+  <data name="EditDialog_URL" xml:space="preserve">
     <value>URL:</value>
   </data>
 </root>

@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace CompactView.Views
 {
-    public enum RenameResult
+    public enum EditResult
     {
         RenameOK,
         RenameCancel,
@@ -22,11 +22,11 @@ namespace CompactView.Views
         public char SymbolAsChar { get { return (char)Symbol; } }
     }
 
-    public sealed partial class RenameDialog : ContentDialog
+    public sealed partial class EditDialog : ContentDialog
     {
         ObservableCollection<SymbolSelect> symbols = new ObservableCollection<SymbolSelect>();
 
-        public RenameResult Result { get; private set; }
+        public EditResult Result { get; private set; }
 
         private static DependencyProperty s_websiteProperty
     = DependencyProperty.Register("Website", typeof(WebsiteViewModel), typeof(WebViewPage), new PropertyMetadata(null));
@@ -42,7 +42,7 @@ namespace CompactView.Views
             set { SetValue(s_websiteProperty, value); }
         }
 
-        public RenameDialog()
+        public EditDialog()
         {
             this.InitializeComponent();
 
@@ -58,7 +58,7 @@ namespace CompactView.Views
         //Checks for the Navigation Parameter and changes the ViewModel to the requested Website.
         private void ContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
         {
-            Result = RenameResult.Nothing;
+            Result = EditResult.Nothing;
             long iD = Convert.ToInt64(sender.AccessKey);
 
             try
@@ -84,7 +84,7 @@ namespace CompactView.Views
                 }
 
                 WebsiteDataSource.Rename(iD, name);
-                Result = RenameResult.RenameOK;
+                Result = EditResult.RenameOK;
             }
         }
 
@@ -99,7 +99,7 @@ namespace CompactView.Views
             }
 
             WebsiteDataSource.Rename(iD, name);
-            Result = RenameResult.RenameOK;
+            Result = EditResult.RenameOK;
         }
 
         private void URL_TextBox_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
@@ -121,7 +121,7 @@ namespace CompactView.Views
             if (validURL)
             {
                 WebsiteDataSource.ChangeUrl(Website.ID, newUri);
-                Result = RenameResult.RenameOK;
+                Result = EditResult.RenameOK;
             }
         }
 

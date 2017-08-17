@@ -118,7 +118,7 @@ namespace CompactView.Views
             var navigationItem = item as ShellNavigationItem;
             if (navigationItem != null)
             {
-                NavigationService.Navigate(navigationItem.PageType, navigationItem.ID);
+                NavigationService.Navigate(navigationItem.PageType, "ID:" + navigationItem.ID);
             }
         }
 
@@ -209,16 +209,16 @@ namespace CompactView.Views
 
         private async Task ShowDialog(long iD)
         {
-            var dialog = new RenameDialog();
+            var dialog = new EditDialog();
             dialog.AccessKey = iD.ToString();
             await dialog.ShowAsync();
 
-            if (dialog.Result == RenameResult.RenameOK)
+            if (dialog.Result == EditResult.RenameOK)
             {
                 // Rename was successful.
                 PopulateNavItems();
             }
-            else if (dialog.Result == RenameResult.RenameCancel)
+            else if (dialog.Result == EditResult.RenameCancel)
             {
                 // Rename was cancelled by the user.
             }

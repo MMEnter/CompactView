@@ -8,6 +8,12 @@ using Windows.UI.Xaml;
 using CompactView.Helpers;
 using CompactView.Data;
 
+using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.DataTransfer.ShareTarget;
+using CompactView.Views;
+using Windows.UI.ViewManagement;
+
 namespace CompactView
 {
     /// <summary>
@@ -65,6 +71,29 @@ namespace CompactView
         private ActivationService CreateActivationService()
         {
             return new ActivationService(this, typeof(Views.WebViewPage), new Views.ShellPage());
+        }
+
+        protected override async void OnShareTargetActivated(ShareTargetActivatedEventArgs args)
+        {
+            ShareOperation shareOperation = args.ShareOperation;
+            if (shareOperation.Data.Contains(StandardDataFormats.WebLink))
+            {
+                Uri uri = await shareOperation.Data.GetWebLinkAsync();
+                if (uri != null)
+                {
+                    string navigationUri = "URI:" + uri.ToString();
+
+                    //ViewModePreferences compactOptions = ViewModePreferences.CreateDefault(ApplicationViewMode.CompactOverlay);
+                    //compactOptions.CustomSize = new Windows.Foundation.Size(500, 281.25);
+                    //bool modeSwitched = await ApplicationView.GetForCurrentView().TryEnterViewModeAsync(ApplicationViewMode.CompactOverlay, compactOptions);
+
+                    //NavigationService.Navigate<WebViewPage>(navigationUri);
+
+                    WebViewPage.NewUri(uri.ToString());
+                    CreateActivationService();
+                }
+            }
+            shareOperation.ReportCompleted();
         }
     }
 }
