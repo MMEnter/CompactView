@@ -1,23 +1,24 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
+using CompactView.Data;
 using CompactView.Helpers;
 using CompactView.Services;
 
+using Microsoft.Toolkit.Uwp.UI.Controls;
+
+using static CompactView.Views.WebViewPage;
+
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using static CompactView.Views.WebViewPage;
-using CompactView.Helpers;
-using System.Collections.Generic;
-using System;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.StartScreen;
-using System.Threading.Tasks;
-using CompactView.Data;
+using Windows.UI.Xaml.Navigation;
 
 namespace CompactView.Views
 {

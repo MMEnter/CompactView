@@ -38,6 +38,6 @@
             </Grid>
         </Grid>
 
-        <WebView x:Name="webView" Grid.Row="1" Source="{x:Bind Website.URL, Mode=OneWay}" SizeChanged="webView1_SizeChanged"/>
+        <WebView x:Name="webView" Grid.Row="1" Source="{x:Bind Website.URL, Mode=OneWay}" SizeChanged="WebView1_SizeChanged"/>
     </Grid>
 </Page>

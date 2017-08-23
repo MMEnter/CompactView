@@ -157,7 +157,7 @@
     <value>Packages Used</value>
   </data>
   <data name="Settings_UsingDescription.Text" xml:space="preserve">
-    <value>Microsot UWP Toolkit
+    <value>Microsoft UWP Toolkit
 Microsoft Template Builder</value>
   </data>
   <data name="FirstRun_Body.Text" xml:space="preserve">
@@ -199,5 +199,29 @@ The + button in the bottom left allows you to save the current Homepage to your 
   </data>
   <data name="RenameDialog_URL" xml:space="preserve">
     <value>URL:</value>
+  </data>
+  <data name="Setting_Tabbed_Pivot.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Setting_Tabbed_PivotItem1.Header" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Setting_Tabbed_PivotItem2.Header" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Shell_Setting_Tabbed" xml:space="preserve">
+    <value>Setting_Tabbed</value>
+  </data>
+  <data name="Contributers_Title.Text" xml:space="preserve">
+    <value>Special thanks to all people who helped developing this application:</value>
+  </data>
+  <data name="Contributer_1.Content" xml:space="preserve">
+    <value>Arcadio Garcia Salvadores</value>
+  </data>
+  <data name="Contributer_1.NavigateUri" xml:space="preserve">
+    <value>https://github.com/arcadiogarcia</value>
+  </data>
+  <data name="Setting_Tabbed_PivotItem3.Header" xml:space="preserve">
+    <value>Contributers</value>
   </data>
 </root>

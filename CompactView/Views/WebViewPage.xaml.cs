@@ -1,6 +1,5 @@
 using CompactView.Data;
 using CompactView.Helpers;
-using CompactView.Helpers;
 using CompactView.Models;
 using CompactView.Services;
 using System;
@@ -344,7 +343,7 @@ namespace CompactView.Views
             ContentDialogResult result = await noWifiDialog.ShowAsync();
         }
 
-        private void webView1_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void WebView1_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ModeChanged();
         }

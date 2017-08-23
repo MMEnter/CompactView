@@ -6,65 +6,66 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid Margin="12,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="48"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <TextBlock
-                Grid.Row="0"
-                x:Uid="Settings_Title"
-                x:Name="TitlePage"
-                FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
-                Margin="0,0,12,7"/>
-            <TextBlock
-                Grid.Row="0"
-                x:Uid="Settings_VersionNumber"
-                x:Name="VersionNumber"
-                FontSize="14" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
-                Margin="0,0,12,7"/>
-
-            <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,16,0,0">
-                <TextBlock
-                    x:Uid="Settings_About"
-                    Style="{ThemeResource TitleTextBlockStyle}"/>
-                <TextBlock
-                    Text="{x:Bind AppDescription, Mode=OneWay}"
-                    Style="{ThemeResource SubtitleTextBlockStyle}"
-                    Margin="0,4,0,0"/>
-                <TextBlock
-                    x:Uid="Settings_AboutDescription"
-                    Style="{ThemeResource BodyTextBlockStyle}"/>
-                <TextBlock
-                    x:Uid="Settings_Using"
-                    Style="{ThemeResource TitleTextBlockStyle}"/>
-                <TextBlock
-                    x:Uid="Settings_UsingDescription"
-                    Style="{ThemeResource BodyTextBlockStyle}"/>
-                <HyperlinkButton
-                    x:Uid="Settings_PrivacyTermsLink"
-                    Margin="0,8,0,0"/>
-                <HyperlinkButton
-                    x:Uid="Settings_GitHubLink"
-                    Margin="0,8,0,0"/>
-            </StackPanel>
-
-            <StackPanel Grid.Row="2" Margin="0,16,0,0">
-                <TextBlock
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="TitleRow" Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Pivot Grid.Row="1">
+            <PivotItem x:Uid="Setting_Tabbed_PivotItem1">
+                <StackPanel Grid.Row="1" Margin="0,16,0,0">
+                    <TextBlock
                     x:Uid="Settings_Theme"
                     Style="{ThemeResource TitleTextBlockStyle}"/>
-                <ToggleSwitch
+                    <ToggleSwitch
                     x:Uid="Settings_ThemeToggle"
                     IsOn="{x:Bind IsLightThemeEnabled, Mode=OneWay}"
                     Toggled="ThemeToggle_Toggled"
                     Margin="0,4,0,0">
-                </ToggleSwitch>
-            </StackPanel>
+                    </ToggleSwitch>
+                </StackPanel>
+            </PivotItem>
 
-        </Grid>
-    
+            <PivotItem x:Uid="Setting_Tabbed_PivotItem2">
+                <StackPanel Grid.Row="1" VerticalAlignment="Top" Margin="0,16,0,0">
+                    <TextBlock
+                    x:Uid="Settings_About"
+                    Style="{ThemeResource TitleTextBlockStyle}"/>
+                    <TextBlock
+                    Text="{x:Bind AppDescription, Mode=OneWay}"
+                    Style="{ThemeResource SubtitleTextBlockStyle}"
+                    Margin="0,4,0,0"/>
+                    <TextBlock
+                    x:Uid="Settings_AboutDescription"
+                    Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <TextBlock
+                    x:Uid="Settings_Using"
+                    Style="{ThemeResource TitleTextBlockStyle}"/>
+                    <TextBlock
+                    x:Uid="Settings_UsingDescription"
+                    Style="{ThemeResource BodyTextBlockStyle}"/>
+                    <HyperlinkButton
+                    x:Uid="Settings_PrivacyTermsLink"
+                    Margin="0,8,0,0"/>
+                    <HyperlinkButton
+                    x:Uid="Settings_GitHubLink"
+                    Margin="0,8,0,0"/>
+                </StackPanel>
+            </PivotItem>
+
+            <PivotItem x:Uid="Setting_Tabbed_PivotItem3">
+                <StackPanel>
+                    <TextBlock
+                    x:Uid="Contributers_Title"
+                    Style="{ThemeResource TitleTextBlockStyle}"/>
+                    <Line/>
+                    <HyperlinkButton
+                    x:Uid="Contributer_1"
+                    Margin="0,8,0,0"/>
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">
