@@ -161,7 +161,7 @@
 Microsoft Template Builder</value>
   </data>
   <data name="FirstRun_Body.Text" xml:space="preserve">
-    <value>Use the textbox in the title bar to navigate to a website. The Past and Go button allows a quick way to navigate to a back that you have saved on the clipboard.
+    <value>Use the textbox in the title bar to navigate to a website. The Paste and Go button allows a quick way to navigate to a back that you have saved on the clipboard.
 
 The + button in the bottom left allows you to save the current Homepage to your list. Swiping items in the list allows you to delete them from the list. Right clicking and item allows you to rename it.</value>
   </data>
@@ -186,7 +186,7 @@ The + button in the bottom left allows you to save the current Homepage to your 
     <value>GO</value>
   </data>
   <data name="WebViewPage_PastAndGo.Content" xml:space="preserve">
-    <value>Past and Go</value>
+    <value>Paste and Go</value>
   </data>
   <data name="RenameDialog_Name" xml:space="preserve">
     <value>Name:</value>
